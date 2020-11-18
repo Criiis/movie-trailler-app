@@ -1,0 +1,13 @@
+$mobileMax: 375px;
+// $mobileMin: 376px;
+// $tabletUpwards: 767px;
+// $tabletMin: 
+$desktopMin: 1024px;
+
+
+@mixin media($media) {
+    @if $media == 'mobileDownWards' {@media screen and (max-width: $mobileMax) {@content;} }
+	// @if $media == 'mobileUpwards' {@media screen and (min-width: $mobileMin) {@content;} }
+    // @if $media == 'tabletUpwards' { @media screen and (min-width: $tabletMin) { @content; } }
+    @if $media == 'desktopUpWards' { @media screen and (min-width: $desktopMin) { @content; } }
+}

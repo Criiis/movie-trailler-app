@@ -1,0 +1,29 @@
+@import '../_base/base.scss';
+
+.row {
+    width: 100%;
+    padding: 0 20px;
+    .movieImage {
+        display: flex;
+        overflow-y: scroll;
+        -ms-overflow-style: none; 
+        scrollbar-width: none;
+        padding: 15px 0;
+        &::-webkit-scrollbar {
+            display:none;
+        }
+        img {
+            width: 200px;
+            padding: 5px;
+            transition: transform 0.2s  ;
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+    .error {
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+}
