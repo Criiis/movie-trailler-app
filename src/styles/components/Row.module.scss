@@ -21,6 +21,13 @@
             }
         }
     }
+    .traillerContainer {
+        width: 100%;
+        iframe {
+            width: 100%;
+            height: 400px;
+        }
+    }
     .error {
         text-align: center;
         text-transform: uppercase;
