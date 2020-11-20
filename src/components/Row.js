@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import mainURL from '../module/mainFetchURL'
 import RowStyle from '../styles/components/Row.module.scss'
 import {BrowserRouter, Link} from 'react-router-dom'
-// import YouTube from 'react-youtube'
 import movieTrailer from 'movie-trailer'
+import TraillerVideo from './Video.js'
 
 class MovieTyle extends React.Component {
     constructor(props) {
@@ -44,16 +44,6 @@ function Row({title, fetchURL}) {
         //if you are using a variable pulling from outside if the "useEffect", we have to pass it below in this case "fetchURL"
     }, [fetchURL]);
 
-
-    // const opts = {
-    //     height: '390',
-    //     width: '100%',
-    //     playerVars: {
-    //       // https://developers.google.com/youtube/player_parameters
-    //     autoplay: 1,
-    //     },
-    // }
-
     const handleMovieClick = (movie) => {
         let movieID;
         movieTrailer( movie.name == null ? movie.original_title : movie.name, {id: true} )
@@ -66,6 +56,7 @@ function Row({title, fetchURL}) {
                 setTraillerUrl('')
             }
         })
+
         //set Trailler URL empty to close the window when it does not found any video
         .catch( error => {
             setTraillerUrl('')
@@ -93,7 +84,7 @@ function Row({title, fetchURL}) {
             {errorTrailler && <p className={RowStyle.error}>{errorTrailler}</p>}
             {traillerUrl && 
             <div className={RowStyle.traillerContainer}>
-                <iframe title={traillerUrl} src={`https://www.youtube.com/embed/${traillerUrl}?autoplay=1`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/>
+                <TraillerVideo url={traillerUrl}/>
             </div>
             }
         </div>

@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react'
 import mainURL from '../module/mainFetchURL'
 import requests from '../module/request'
 import heroStyle from '../styles/components/Hero.module.scss'
-import { AiFillCaretRight } from 'react-icons/ai';
+import { AiFillCaretRight } from 'react-icons/ai'
 import movieTrailer from 'movie-trailer'
+import TraillerVideo from './Video.js'
 
 function Hero() {
     const [movie, setmovie] = useState([]);
@@ -78,9 +79,8 @@ function Hero() {
             {movieTraillerURL &&
             <div onClick={() => closeHeroTrailler()} className={heroStyle.mainMovieTrailler}>
                 <div>
-                    <iframe title={movie?.name || movie?.title || movie?.original_name} src={`https://www.youtube.com/embed/${movieTraillerURL}?autoplay=1`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/>
+                    <TraillerVideo url={movieTraillerURL}/>
                 </div>
-                {/* <button onClick={() => closeHeroTrailler()}>Close</button> */}
             </div>
             }
             <div>
