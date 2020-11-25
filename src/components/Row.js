@@ -1,71 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import mainURL from '../module/mainFetchURL'
+import React, { useState, useRef, useEffect} from 'react'
 import RowStyle from '../styles/components/Row.module.scss'
 import {BrowserRouter, Link} from 'react-router-dom'
-import YouTube from 'react-youtube'
 import movieTrailer from 'movie-trailer'
+import TraillerVideo from './Video.js'
+// import { Swiper, SwiperSlide } from 'swiper/react';
+// import 'swiper/swiper.scss';
 
-class MovieTyle extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            movieID: this.props.id
-        }
-    }
-    render() {
-        return(
-            <img id={this.props.id} src={this.props.src} alt={this.props.alt}/>
-        )
-    } 
-}
+function Row({title, cat, fetchData}) {
+    const base_URL = 'https://image.tmdb.org/t/p/w200/'
+    const [traillerUrl, setTraillerUrl] = useState('')
+    const [errorTrailler, setErrorTrailler] = useState('')
 
+    //useRef to know the "this" of the object i clicked
+    const movieRef = useRef(null);
+    const rowRef = useRef(null);
 
-function Row({title, fetchURL}) {
-//create a fecth data 
-    const [movies, setMovies] = useState([]);
-    const base_URL = 'https://image.tmdb.org/t/p/w300/';
-    const [traillerUrl, setTraillerUrl] = useState('');
-    const [errorTrailler, setErrorTrailler] = useState('');
-    const [load, setLoad] = useState(false);
-
-    //A snippet of code which runs based on a specific condition
-    //other words this snippet will call the TMDB and pull the information we need from it (images of the movies) 
-    useEffect(() => {
-        //this useEffects run once when the "row" loads and don't run again 
-        async function fetchData() {
-            const data = await fetch(
-                `${mainURL}${fetchURL}`
-            )
-
-            const request = await data.json();
-            setMovies(request.results);
-            setLoad(true);
-            // return request;
-            console.log(request);
-        }
-        fetchData();
-        //if you are using a variable pulling from outside if the "useEffect", we have to pass it below in this case "fetchURL"
-    }, [fetchURL]);
-
-    function useLoad() {
-        useEffect(() => {
-            if(load === true) {
-                console.log(load);
-            }
-        }, [load])
-    }
-    
-    useLoad()
-
-
-    const opts = {
-        height: '390',
-        width: '100%',
-        playerVars: {
-          // https://developers.google.com/youtube/player_parameters
-        autoplay: 1,
-        },
-    }
 
     const handleMovieClick = (movie) => {
         let movieID;
@@ -82,30 +31,69 @@ function Row({title, fetchURL}) {
         //set Trailler URL empty to close the window when it does not found any video
         .catch( error => {
             setTraillerUrl('')
-            // console.log(`error - ${error}`)
             setErrorTrailler(`unfortunately the trailler for ${movie.name == null ? movie.original_title : movie.name} is not avaliable`)
         })
     }
 
+    function moveMoviePostTop() {
+        let findID = movieRef.current.offsetTop;
+        window.scrollTo({ top: findID, behavior: 'smooth'})
+    }
+
+    useEffect(() => {
+        window.addEventListener('load', () => {
+
+        const urlParams = new URLSearchParams(window.location.search)
+        const getCat = urlParams.get('cat')
+        const getid = String(urlParams.get('id'))
+        if(cat === getCat) {
+            let rowRefContent = rowRef.current
+            let movieDiv= rowRefContent.querySelector(`#${getid}`)
+            if(movieDiv !== null) {
+                console.log('success!')
+                let movieName = movieDiv.alt
+                movieTrailer( movieName, {id: true} )
+                .then( url => {
+                    setTraillerUrl(url)
+                })
+                .catch( () => {
+                    setTraillerUrl('')
+                    setErrorTrailler(`unfortunately the trailler for ${movieName} is not avaliable`)
+                })
+            }
+        }
+
+        })
+
+    }, [cat])
+
+
     return (
-        <div className={RowStyle.row}>
+        <div className={RowStyle.row} id={cat} ref={rowRef}>
             <h2>{title}</h2>
-            <div className={RowStyle.movieImage}>
-            {movies.map( movie => (
-                <BrowserRouter key={movie.id}>
-                    <Link to={`?id=${movie.id}`} onClick={ () => handleMovieClick(movie)}>
-                        <MovieTyle
-                            id={movie.id}
-                            key={`${movie.id}10`}
+            <div className={RowStyle.movieImage} id="merda">
+            {fetchData.map( movie => (
+                <BrowserRouter key={`${movie.id}10`}>
+                    <Link ref={movieRef} to={`?cat=${cat}&id=mov_${movie.id}&name=${movie.name == null ? movie.original_title : movie.name}`} onClick={ () => {
+                        handleMovieClick(movie)
+                        moveMoviePostTop()
+                    }}>
+                        <img
+                            id={`mov_${movie.id}`}
+                            key={movie.id}
                             src={`${base_URL}${ movie.poster_path === null ? movie.backdrop_path : movie.poster_path }`}
                             alt={movie.name == null ? movie.original_title : movie.name}
                         />
                     </Link>
                 </BrowserRouter>
                 ))}
+                </div>
+                <div>
+                <div className={RowStyle.traillerContainer}>
+                    {errorTrailler && <p className={RowStyle.error}>{errorTrailler}</p>}
+                    {traillerUrl && <TraillerVideo url={traillerUrl}/>}
+                </div>
             </div>
-                {errorTrailler && <p className={RowStyle.error}>{errorTrailler}</p>}
-                {traillerUrl && <YouTube videoId={traillerUrl} opts={opts} />}
         </div>
     )
 }
