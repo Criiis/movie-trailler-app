@@ -68,15 +68,15 @@ function App() {
 return (
     <div className="App">
       <Hero />
-      {netflixOriginals && <Row title="NETFLIX ORIGINALS" fetchData={netflixOriginals} cat="netflix_originals" />}
-      {moviesTrending && <Row title="MOVIES TRENDING" fetchData={moviesTrending} cat="movies_trending"/>}
-      {topRated && <Row title="TOP RATED" fetchData={topRated} cat="top_rated"/>}
-      {actionMovies && <Row title="ACTION MOVIES" fetchData={actionMovies}  cat="action_movies"/>}
-      {romanceMovies && <Row title="ROMANCE MOVIES" fetchData={romanceMovies} cat="romance_movies"/>}
-      {trending && <Row title="TRENDING NOW" fetchData={trending} cat="trending"/>}
-      {comedyMovies && <Row title="COMEDY MOVIES" fetchData={comedyMovies} cat="comedy_movies"/>}
-      {horrorMovies && <Row title="HORROR MOVIES" fetchData={horrorMovies} cat="horror_movies"/>}
-      {documentaries && <Row title="DOCUMENTARIES" fetchData={documentaries} cat="documentaries"/>}
+      {netflixOriginals && <Row title="NETFLIX ORIGINALS" fetchData={netflixOriginals} cat="netflix_originals" status={status} pageStatus={pageStatus}/>}
+      {moviesTrending && <Row title="MOVIES TRENDING" fetchData={moviesTrending} cat="movies_trending" status={status} pageStatus={pageStatus}/>}
+      {topRated && <Row title="TOP RATED" fetchData={topRated} cat="top_rated" status={status} pageStatus={pageStatus}/>}
+      {actionMovies && <Row title="ACTION MOVIES" fetchData={actionMovies}  cat="action_movies"  status={status} pageStatus={pageStatus}/>}
+      {romanceMovies && <Row title="ROMANCE MOVIES" fetchData={romanceMovies} cat="romance_movies" status={status} pageStatus={pageStatus}/>}
+      {trending && <Row title="TRENDING NOW" fetchData={trending} cat="trending" status={status} pageStatus={pageStatus}/>}
+      {comedyMovies && <Row title="COMEDY MOVIES" fetchData={comedyMovies} cat="comedy_movies" status={status} pageStatus={pageStatus}/>}
+      {horrorMovies && <Row title="HORROR MOVIES" fetchData={horrorMovies} cat="horror_movies" status={status} pageStatus={pageStatus}/>}
+      {documentaries && <Row title="DOCUMENTARIES" fetchData={documentaries} cat="documentaries" status={status} pageStatus={pageStatus}/>}
     </div>
   );
 }

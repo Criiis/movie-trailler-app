@@ -6,7 +6,7 @@ import TraillerVideo from './Video.js'
 // import { Swiper, SwiperSlide } from 'swiper/react';
 // import 'swiper/swiper.scss';
 
-function Row({title, cat, fetchData}) {
+function Row({title, cat, fetchData, status, pageStatus}) {
     const base_URL = 'https://image.tmdb.org/t/p/w200/'
     const [traillerUrl, setTraillerUrl] = useState('')
     const [errorTrailler, setErrorTrailler] = useState('')
@@ -41,31 +41,35 @@ function Row({title, cat, fetchData}) {
     }
 
     useEffect(() => {
-        window.addEventListener('load', () => {
+        // window.addEventListener('load', () => {
 
         const urlParams = new URLSearchParams(window.location.search)
         const getCat = urlParams.get('cat')
         const getid = String(urlParams.get('id'))
         if(cat === getCat) {
-            let rowRefContent = rowRef.current
-            let movieDiv= rowRefContent.querySelector(`#${getid}`)
-            if(movieDiv !== null) {
-                console.log('success!')
-                let movieName = movieDiv.alt
-                movieTrailer( movieName, {id: true} )
-                .then( url => {
-                    setTraillerUrl(url)
-                })
-                .catch( () => {
-                    setTraillerUrl('')
-                    setErrorTrailler(`unfortunately the trailler for ${movieName} is not avaliable`)
-                })
+
+            if(status === true && pageStatus === true) {
+
+                let rowRefContent = rowRef.current
+                let movieDiv= rowRefContent.querySelector(`#${getid}`)
+                if(movieDiv !== null) {
+                    console.log('success!')
+                    let movieName = movieDiv.alt
+                    movieTrailer( movieName, {id: true} )
+                    .then( url => {
+                        setTraillerUrl(url)
+                    })
+                    .catch( () => {
+                        setTraillerUrl('')
+                        setErrorTrailler(`unfortunately the trailler for ${movieName} is not avaliable`)
+                    })
+                }
+
             }
         }
 
-        })
+    }, [cat, status, pageStatus])
 
-    }, [cat])
 
 
     return (
