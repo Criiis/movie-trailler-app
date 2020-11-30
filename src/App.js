@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import mainURL from './module/mainFetchURL';
-import Row from "./components/Row";
-import Hero from "./components/Hero";
-import requests from "./module/request";
+import React, { useState, useEffect } from "react"
+import Row from "./components/Row"
+import Hero from "./components/Hero"
+import requests from "./module/request"
+import fetchData from "./module/useFetchURL"
 import "./styles/App.scss";
 
 function App() {
@@ -18,18 +18,6 @@ function App() {
   const [status, setStatus] = useState(false);
   const [pageStatus, setPageStatus] = useState(false);
 
-  async function fetchData(url, callBack) {
-    try {
-      const call = await fetch(`${mainURL}${url}`)
-      const data = await call.json()
-      const result = data.results
-      callBack(result);
-    } catch (error) {
-      console.log('something went wrong!');
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
     fetchData(`${requests.fetchNetflixOriginals}`, setNetflixOriginals)
     fetchData(`${requests.fetchActionMovies}`, setActionMovies)
@@ -42,7 +30,6 @@ function App() {
     fetchData(`${requests.fetchTrending}`, setTrending)
   }, []);
 
-
   useEffect(() => {
     if(netflixOriginals.length && trending.length && topRated.length && romanceMovies.length && moviesTrending.length && horrorMovies.length && documentaries.length && comedyMovies.length && actionMovies.length !== 0) {
       setStatus(true)
@@ -53,15 +40,13 @@ function App() {
 
     if(status === true && pageStatus === true) {
       const urlParams = new URLSearchParams(window.location.search);
-      const getPram = urlParams.get('cat');
-      let findID;
-      if(getPram !== null) {
-        findID = document.getElementById(getPram).offsetTop
-        window.scrollTo({ top: findID, behavior: 'smooth'});
-        console.log('go!');
+      const getPramCat = urlParams.get('cat');
+      if(getPramCat !== null) {
+        let findCat = document.getElementById(getPramCat).offsetTop
+        window.scrollTo({ top: findCat, behavior: 'smooth'});
       }
-
     }
+
 }, [netflixOriginals, trending, topRated, romanceMovies, moviesTrending, horrorMovies, documentaries, comedyMovies, actionMovies, status, pageStatus])
 
 

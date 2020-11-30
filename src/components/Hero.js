@@ -12,6 +12,7 @@ function Hero() {
     const [errorMovieTraillerURL, seterrorMovieTraillerURL] = useState('');
     
 
+    //function to fetch one movie from the list of movies
     useEffect(() => {
         async function fetchData() {
             const data = await fetch(
@@ -31,6 +32,7 @@ function Hero() {
         fetchData();
     }, [])
 
+    //movie trailler to get the trailler for the movie
     const handleHeroTrailler = (movie) => {
         movieTrailer( movie?.name || movie?.title || movie?.original_name, {id: true} )
         .then( id => {
@@ -43,10 +45,12 @@ function Hero() {
         })
     }
 
+    //function to close movie 
     const closeHeroTrailler = () => {
         setMovieTraillerURL('')
     }
 
+    //when press esc key close movie trailler
     useEffect(() => {
         const handleEsc = (event) => {
             if (event.keyCode === 27) {
@@ -80,7 +84,6 @@ function Hero() {
                 <div>
                     <iframe title={movie?.name || movie?.title || movie?.original_name} src={`https://www.youtube.com/embed/${movieTraillerURL}?autoplay=1`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/>
                 </div>
-                {/* <button onClick={() => closeHeroTrailler()}>Close</button> */}
             </div>
             }
             <div>
