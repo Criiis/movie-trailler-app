@@ -11,13 +11,8 @@ const RowContainer = styled.div`
     .movieImage {
         display: flex;
         overflow-y: scroll;
-        -ms-overflow-style: none; 
-        scrollbar-width: none;
         padding: 15px 0;
         min-height: 200px;
-        &::-webkit-scrollbar {
-            display:none;
-        }
         img {
             width: 200px;
             padding: 5px;
@@ -111,6 +106,7 @@ export default function Row({title, cat, fetchData, status, pageStatus}) {
     <RowContainer id={cat} ref={rowRef}>
         <h2>{title}</h2>
         <div className="movieImage">
+
         {fetchData.map( movie => (
             <BrowserRouter key={`${movie.id}10`}>
                 <Link to={`?cat=${cat}&id=mov_${movie.id}&name=${movie.name == null ? movie.original_title : movie.name}`} onClick={ () => {
@@ -126,6 +122,7 @@ export default function Row({title, cat, fetchData, status, pageStatus}) {
                 </Link>
             </BrowserRouter>
             ))}
+
             </div>
             <div>
             <div className="traillerContainer">
