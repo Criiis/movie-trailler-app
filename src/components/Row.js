@@ -10,9 +10,17 @@ const RowContainer = styled.div`
     padding: 0 20px;
     .movieImage {
         display: flex;
-        overflow-y: scroll;
+        overflow-x: scroll;
         padding: 15px 0;
         min-height: 200px;
+        ::-webkit-scrollbar{
+            height: 10px;
+            width: 10px;
+            background: white;
+        }
+        ::-webkit-scrollbar-thumb:horizontal{
+            background: #333334;
+        }
         img {
             width: 200px;
             padding: 5px;
