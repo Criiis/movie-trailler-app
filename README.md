@@ -1,3 +1,6 @@
+# GitPages URL
+https://criiis.github.io/movie-trailler-app/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
