@@ -3,7 +3,7 @@ import Row from "./components/Row"
 import Hero from "./components/Hero"
 import requests from "./module/request"
 import fetchData from "./module/useFetchURL"
-import "./styles/App.scss";
+import "./styles/_base/base.scss"
 
 function App() {
   const [netflixOriginals, setNetflixOriginals] = useState([]);

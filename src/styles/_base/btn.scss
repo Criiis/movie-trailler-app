@@ -1,13 +1,11 @@
 button,
 a.btn {
-    background-color: $orange;
     border: none;
     margin: 0;
     text-decoration: none;
     border-radius: 3px;
     font-size: 16px;
     padding: 8px 20px;
-    background: $grey;
     background: rgba(100,100,100,0.7);
     color: white;
     cursor: pointer;
@@ -15,7 +13,7 @@ a.btn {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    transition: all 0.2s  ;
+    transition: all 0.2s;
     svg {
         font-size: 16px;
     }

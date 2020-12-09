@@ -4,6 +4,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: black;
+  color: white;
+  padding: 0;
+  margin: 0;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar {
+  display:none;
+}
+
+body *{
+  box-sizing: border-box;
 }
 
 code {

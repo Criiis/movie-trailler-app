@@ -1,25 +1,36 @@
 import React, { useState, useRef, useEffect} from 'react'
 import {BrowserRouter, Link} from 'react-router-dom'
 import movieTrailer from 'movie-trailer'
-import TraillerVideo from './Video.js'
+import TrailerVideo from './Video.js'
 import styled from 'styled-components'
+import styleVariables from '../styles/variables'
 
 
 const RowContainer = styled.div`
     width: 100%;
-    padding: 0 20px;
+    padding: ${styleVariables.padding.containerPadding};
     .movieImage {
         display: flex;
         overflow-x: scroll;
-        padding: 15px 0;
+        padding: ${styleVariables.padding.verticalPadding};
         min-height: 200px;
-        ::-webkit-scrollbar{
+
+        &::-webkit-scrollbar{
             height: 10px;
             width: 10px;
-            background: white;
+            background: transparent;
         }
-        ::-webkit-scrollbar-thumb:horizontal{
-            background: #333334;
+        &::-webkit-scrollbar-thumb:horizontal{
+            background: transparent;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        &:hover {
+            &::-webkit-scrollbar-thumb:horizontal{
+                background: white;
+            }
         }
         img {
             width: 200px;
@@ -30,7 +41,7 @@ const RowContainer = styled.div`
             }
         }
     }
-    .traillerContainer {
+    .trailerContainer {
         width: 100%;
 
         iframe {
@@ -47,8 +58,8 @@ const RowContainer = styled.div`
 
 export default function Row({title, cat, fetchData, status, pageStatus}) {
     const base_URL = 'https://image.tmdb.org/t/p/w200/'
-    const [traillerUrl, setTraillerUrl] = useState('')
-    const [errorTrailler, setErrorTrailler] = useState('')
+    const [trailerUrl, setTrailerUrl] = useState('')
+    const [errorTrailer, setErrorTrailer] = useState('')
     //useRef to know the "this" of the object i clicked
     const movieRef = useRef(null);
     const rowRef = useRef(null);
@@ -61,21 +72,23 @@ export default function Row({title, cat, fetchData, status, pageStatus}) {
 
         movieTrailer( movie.name == null ? movie.original_title : movie.name, {id: true} )
         .then( url => {
-            setTraillerUrl(url)
-            setErrorTrailler('')
+            setTrailerUrl(url)
+            setErrorTrailer('')
             movieID = url;
-            //set Trailler URL empty if you click in the same movie 
-            if(traillerUrl === movieID) {
-                setTraillerUrl('')
+            //set Trailer URL empty if you click in the same movie 
+            if(trailerUrl === movieID) {
+                setTrailerUrl('')
             }
         })
-        //set Trailler URL empty to close the window when it does not found any video
+        //set Trailer URL empty to close the window when it does not found any video
         .catch( error => {
-            setTraillerUrl('')
-            setErrorTrailler(`unfortunately the trailler for ${movie.name == null ? movie.original_title : movie.name} is not avaliable`)
+            setTrailerUrl('')
+            setErrorTrailer(`unfortunately the trailer for ${movie.name == null ? movie.original_title : movie.name} is not avaliable`)
         })
     }
 
+
+    //this useEffect will be the one to search for the correct movie when the page loads
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search)
         const getCat = urlParams.get('cat')
@@ -90,11 +103,11 @@ export default function Row({title, cat, fetchData, status, pageStatus}) {
                     let movieName = movieDiv.alt
                     movieTrailer( movieName, {id: true} )
                     .then( url => {
-                        setTraillerUrl(url)
+                        setTrailerUrl(url)
                     })
                     .catch( () => {
-                        setTraillerUrl('')
-                        setErrorTrailler(`unfortunately the trailler for ${movieName} is not avaliable`)
+                        setTrailerUrl('')
+                        setErrorTrailer(`unfortunately the trailer for ${movieName} is not avaliable`)
                     })
                 }
 
@@ -133,9 +146,9 @@ export default function Row({title, cat, fetchData, status, pageStatus}) {
 
             </div>
             <div>
-            <div className="traillerContainer">
-                {errorTrailler && <p className="error">{errorTrailler}</p>}
-                {traillerUrl && <TraillerVideo url={traillerUrl}/>}
+            <div className="trailerContainer">
+                {errorTrailer && <p className="error">{errorTrailer}</p>}
+                {trailerUrl && <TrailerVideo url={trailerUrl}/>}
             </div>
         </div>
     </RowContainer>
